@@ -15,4 +15,10 @@ Coding Practice when studying 《Core Java》
 
 ###  增值服务（待实现）
 
+- Client检查Server异常退出
 - Server检测Client异常退出
+
+###  实现说明
+
+- Client使用Maven构建
+- Server使用Eclipse IDE构建
