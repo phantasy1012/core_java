@@ -6,20 +6,30 @@ import java.net.*;
 import java.util.concurrent.*;
 
 /**
- * Hello world!
- *
+ * Echo Client
+ * 
+ * @version		1.0 2016-4-7
+ * @author 		suwenqiang@ruijie.com.cn
  */
 public class EchoClient
-{
+{	
+	/** main method */
     public static void main( String[] args )
     {
         BlockingQueue<String> queue = new ArrayBlockingQueue<>(10);
         
+        Thread t = Thread.currentThread();
+        t.setName("echo client main thread");
+        
         Producer producer = new Producer(queue);
-        new Thread(producer).start();
+        Thread p = new Thread(producer);
+        p.setName("echo client producer thread");
+        p.start();
         
         Consumer consumer = new Consumer(queue);
-        new Thread(consumer).start();
+        Thread c = new Thread(consumer);
+        c.setName("echo client consumer thread");
+        c.start();
     }
 }
 
@@ -34,6 +44,7 @@ class Producer implements Runnable{
         try(Scanner in = new Scanner(System.in)) {
             while (!Thread.currentThread().isInterrupted()) {
                 System.out.print("$ ");
+                /* input.nextLine is blocking and non-interruptible */
                 String message = in.nextLine();
                 queue.put(message);
             }
@@ -75,6 +86,5 @@ class Consumer implements Runnable{
         } catch (InterruptedException e) {
         } catch (IOException e) {
         }
-        System.out.println("7");
     }    
 }
